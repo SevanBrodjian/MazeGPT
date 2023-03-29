@@ -1,0 +1,23 @@
+
+--------------------------------------------------------------------------------------------------------------
+SYSTEM: Available Moves:  R. There are walls in these directions: U D L
+GPT-4: R
+SYSTEM: Available Moves:  D L. There are walls in these directions: U R
+GPT-4: L
+SYSTEM: Available Moves:  R. There are walls in these directions: U D L
+GPT-4: R
+SYSTEM: Available Moves:  D L. There are walls in these directions: U R
+GPT-4: D
+SYSTEM: Available Moves: U D R. There are walls in these directions:  L
+GPT-4: R
+SYSTEM: Available Moves:  L R. There are walls in these directions: U D
+GPT-4: L
+SYSTEM: Available Moves: U D R. There are walls in these directions:  L
+GPT-4: U
+SYSTEM: Available Moves:  D L. There are walls in these directions: U R
+GPT-4: D
+SYSTEM: Available Moves: U D R. There are walls in these directions:  L
+GPT-4: D
+SYSTEM: You see the goal is one block beneath you. Available Moves: U D. There are walls in these directions:  L R
+GPT-4: D
+SYSTEM: Congratulations! You have reached the goal.
