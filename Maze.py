@@ -4,19 +4,19 @@ import openai
 import os
 import time
 
-openai.api_key = os.getenv("OPENAI_KEY")
+openai.api_key = os.getenv("OPENAI_GPT4_KEY")
 
 output = open("Chat_Log.txt", "w")
 output.write("\n--------------------------------------------------------------------------------------------------------------\n")
 
 player_name = "GPT-4"
+with open("start_prompt.txt", "r") as f:
+    start_prompt = f.read()
 
 messages=[
-        {"role": "user", "content": """This is a test to determine your ability to build a mental model of a two dimensional maze and measure your intelligence in general. The maze is a 2D grid where each entry in the grid is either a wall, air, or the goal. You will be able to see what is in the grid spots above, below, to the left, and to the right of the player. You navigate by just sending "L", "R", "U", or "D". This is a 4 by 4 grid maze. Try to determine where you have been before in order to not accidentally retrace your steps and prioritize exploring new territory.
-For example, how could you respond to: 
-Available moves: U, D, L""".replace('\n', '')},
+        {"role": "user", "content": start_prompt + " For example, how could you respond to: Available moves: U, D, L".replace('\n', '')},
         {"role": "assistant", "content": "D"},
-        {"role": "user", "content": "That's correct. Please send confirm to acknowledge these rules."},
+        {"role": "user", "content": "That's correct. Please send confirm to acknowledge these rules. Good luck!"},
         {"role": "assistant", "content": "confirm"}
     ]
 
@@ -75,8 +75,6 @@ def prompt_and_add(msg):
     messages.append({"role":"assistant", "content":response})
     output.write(player_name + ": " + messages[-1]['content'] + "\n")
 
-    time.sleep(3.1)
-
     return response
 
 pygame.init()
@@ -120,11 +118,15 @@ while True:
     game_state = goal_msg + "Available Moves: " + ("U" if top_open else "") + (" D" if bottom_open else "") + (" L" if left_open else "") + (" R" if right_open else "")
     game_state = game_state + ". There are walls in these directions: " + ("" if top_open else "U") + ("" if bottom_open else " D") + ("" if left_open else " L") + ("" if right_open else " R")
     game_state = game_state.strip()
+    
 
     error_msg = "error"
     while(error_msg != ""):
-        move = get_user_input((error_msg if error_msg != "error" else "") + game_state)
-        print(move)
+        print("Thinking...")
+        thought = get_user_input(game_state + " First, briefly explain your thoughts to make a more informed next move(s), saving a model of the world if necessary")
+        move = get_user_input((error_msg if error_msg != "error" else "") + "What will your move be?")
+        print(thought + '\n' + move)
+        time.sleep(4)
 
         error_msg = ""
 
@@ -153,3 +155,5 @@ while True:
 
         # if(error_msg != ""):
         #     alert_user(error_msg)
+
+    pygame.display.update()
