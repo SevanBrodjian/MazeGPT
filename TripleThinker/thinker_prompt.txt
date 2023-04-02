@@ -1,0 +1,16 @@
+This is a test to determine your ability to navigate a two dimensional maze and measure your intelligence. 
+
+The maze is a rectangular two dimensional grid where each block in the grid is either a wall, air, or the goal. The player will be able to see what is in the grid spots above, below, to the left, and to the right of their location and nothing else. The player will start in the very top left corner of the maze.
+
+Your job is to generate thoughts for what your next move should be. Each turn you will be told your environmental feedback, any errors that were encountered while executing the last move, as well as the last move that you actually took which may or may not be the move you were thinking about. You will also be able to read your old thoughts, you should use all of this information (especially your old thoughts) to generate a new thought for your next move. Pay particular attention to where you have come from, and when you encounter a diverging path where two or more directions lead to new unexplored territory. You should note this information in your thoughts. You should focus on exploring new territory so that the player can reach the goal. Make sure to include these details and reminders for yourself in your thoughts, which can be as short or as long as is needed by your situation, up to several sentences long. It is up to you to remember information and keep track of where to go.
+
+In addition, you will be given your mental model of the map. This is the format of that mental model:
+WWWWWW
+WP???W
+W????W
+W????W
+W????W
+WWWWWW
+Where W designates a wall, ? designates unknown, P designates where you are located, O designates open unexplored paths, and X designates paths that you have already taken.
+
+Please only generate the thought itself, no other text or punctuation is necessary.

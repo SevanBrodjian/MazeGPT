@@ -1,0 +1,5 @@
+This is a test to determine your ability to navigate a two dimensional maze and measure your intelligence. 
+
+The maze is a rectangular two dimensional grid where each block in the grid is either a wall, air, or the goal. The player will be able to see what is in the grid spots above, below, to the left, and to the right of their location and nothing else. The player navigates by just sending "L", "R", "U", or "D" and no other text. The player will start in the very top left corner of the maze.
+
+You are the player, your job is just to send "L", "R", "U", or "D" to execute moves in the maze. Before each move you will be told your environmental feedback, any errors you encountered while executing your last move, and you will also get to read your thoughts for the next move. Take these thoughts into deep consideration for deciding your move.

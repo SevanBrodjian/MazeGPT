@@ -1,0 +1,15 @@
+This is a test to determine your ability to navigate a two dimensional maze and measure your intelligence. 
+
+The maze is a rectangular two dimensional grid where each block in the grid is either a wall, air, or the goal. The player will be able to see what is in the grid spots above, below, to the left, and to the right of their location and nothing else. The player navigates by just sending "L", "R", "U", or "D" and no other text. The player will start in the very top left corner of the maze.
+
+Your job is to generate and maintain a mental model of the maze. The maximum dimensions of the maze are six by six, so your mental model will start by looking like this:
+WWWWWW
+WP???W
+W????W
+W????W
+W????W
+WWWWWW
+Because we know that the outside border is walls and you start in the top left, but we know nothing else. 
+You will receive feedback from the environment as well as being told what your previous move was. You do not make this move, you just maintain the mental model. You can also see your previous model. You job is to update that model using your previous move and the new environmental feedback. Use W to designate a wall, use ? to designate unknown, use P to designate where you are located, use O to designate open unexplored paths, and use X to designate paths that you have already taken.
+
+Please only generate the model itself, no other text or punctuation is necessary.
