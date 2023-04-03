@@ -33,6 +33,15 @@ def run_game():
     conceptualizer.add_msg("user", "That's correct. Please send confirm to acknowledge these rules. Good luck!")
     conceptualizer.add_msg("assistant", "confirm")
 
+    with open("conceptualizer_prompt.txt", "r") as f:
+        conceptualizer_start_prompt = f.read()
+
+    fixer = ChatAgent(model = 'gpt-4', start_msg = conceptualizer_start_prompt)
+    fixer.add_msg("user", conceptualizer_start_prompt + " For example, how could you respond to: This is your first move, you are in the top left of the rectangular maze. Available moves: D, R. There are walls in these directions: U, L")
+    fixer.add_msg("assistant", "WWWWWW\nWPO??W\nWO???W\nW????W\nW????W\nWWWWWW")
+    fixer.add_msg("user", "That's correct. Please send confirm to acknowledge these rules. Good luck!")
+    fixer.add_msg("assistant", "confirm")
+
     # Infinite corridor:
     # maze = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
@@ -75,13 +84,17 @@ def run_game():
         while(error_msg != ""):
             print("Thinking...")
             if(not move):
-                mental_model = conceptualizer.prompt("This is your first move, you are in the top-left corner of a rectangular maze. Here is your previous mental model: " + mental_model + " Here is your environment feedback: " + game_state + " What is your mental model of the maze?")
-                thought = thinker.prompt("This is your first move, you are in the top-left of a rectangular maze. Here is your environment feedback: " + game_state + " And here is your current mental model of the maze: " + mental_model + " Please share your thoughts.")
+                old_model = mental_model
+                mental_model = conceptualizer.prompt("Use W to designate a wall, use ? to designate unknown, use P to designate where you are located, use O to designate open unexplored paths, and use X to designate paths that you have already taken. This is your first move, you are in the top-left corner of a rectangular maze. Here is your previous mental model: " + mental_model + " Here is your environment feedback: " + game_state + " What is your mental model of the maze?")
+                mental_model = fixer.prompt("This is your first move, you are in the top-left corner of a rectangular maze. Here is your previous mental model: " + mental_model + " Here is your environment feedback: " + game_state + " And here is your updated mental model using that feedback: " + mental_model + " Does this new mental model accurately reflect the environment surrounding the player? Does it only have one player (P)? Does it only use the characters W, ?, P, O, X, G? Write a sentence evaluating this model, then fix it again if necessary otherwise just send the same model.")
+                thought = thinker.prompt("This is your first move, you are in the top-left of a rectangular maze. Here is your current mental model of the maze: " + old_model + " Here is your environment feedback: " + game_state +  " Please update the unknown blocks (?) around the player (P) in your mental model using this environmental feedback.")
                 move = mover.prompt("This is your first move, you are in the top-left of a rectangular maze. Here is your environment feedback: " + game_state + " And here are your thoughts about the situation and what to do: \"" + thought + "\" What will your move be?")
             elif(error_msg != "error"):
                 move = mover.prompt("You did not move due to this error: " + error_msg + "Here is your (unchanged) environment feedback: " + game_state + " And here are your thoughts about the situation and what to do: \"" + thought + "\" What will your move be?")
             else:
-                mental_model = conceptualizer.prompt("Your previous move was: " + move + "Here is your previous mental model: " + mental_model + " Here is your environment feedback: " + game_state + " Please share your thoughts for the mover.")
+                old_model = mental_model
+                mental_model = conceptualizer.prompt("Use W to designate a wall, use ? to designate unknown, use P to designate where you are located, use O to designate open unexplored paths, and use X to designate paths that you have already taken. Here is your previous mental model: " + mental_model + "Then, you took this move: " + move + " After that move, here is your environmental feedback: " + game_state + " Please update and share your mental model of the maze.")
+                mental_model = fixer.prompt("Here is your previous mental model: " + old_model + " Here is your environment feedback: " + game_state + " And here is your updated mental model using that feedback: " + mental_model + "Then, you took this move: " + move + " Does this new mental model accurately reflect the environment after taking that move and receiving that feedback? Does it only have one player (P)? Does it only use the characters W, ?, P, O, X, G? Write a sentence evaluating this model, then fix it again if necessary otherwise just send the same model.")
                 thought = thinker.prompt("Your previous move was: " + move + "Here is your new environment feedback: " + game_state + " And here is your current mental model of the maze: " + mental_model + " Please share your thoughts.")
                 move = mover.prompt("You moved " + move + ", here is your new environment feedback: " + game_state + " And here are your thoughts about the situation and what to do: \"" + thought + "\" What will your move be?")
             
